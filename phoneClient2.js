@@ -5,10 +5,11 @@ const crypto = require('crypto');
 let serverIP = "127.0.0.1"
 let port = 5500
 let serverBind = 5501;
+let socketId = "socket2"
+let roomId = "bbb";
 
 // let roomId = crypto.randomBytes(3).toString('hex');
-let roomId = "123456";
-let msgCreateRoom = { action: "leave", socket: "socket4", roomId: roomId }
+let msgCreateRoom = { action: "message", socket: socketId, roomId: roomId, message: "dasdasdasdas" }
 let msgCreateRoomStr = JSON.stringify(msgCreateRoom);
 
 client.send(msgCreateRoomStr, port, serverIP);
