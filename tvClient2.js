@@ -8,8 +8,10 @@ let port = 5500
 let serverBind = 5552;
 
 // let roomId = crypto.randomBytes(3).toString('hex');
+let socketId = "socket2"
 let roomId = "bbb";
-let msgCreateRoom = { action: "create", socket: "socket2", roomId: "bbcc" }
+
+let msgCreateRoom = { action: "create", socket: socketId, roomId: roomId }
 let msgCreateRoomStr = JSON.stringify(msgCreateRoom);
 
 server.on('error', (err) => {

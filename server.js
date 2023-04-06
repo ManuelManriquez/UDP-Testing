@@ -11,16 +11,18 @@ server.on('error', (err) => {
 
 server.on('message', (msg, senderInfo) => {
     let msgObj = JSON.parse(msg);
-
     if (msgObj.action == "create") {
-        
-        dictionary.push({ roomId: msgObj.roomId, sockets: [{ socket: msgObj.socket, IP: senderInfo.address, PORT: senderInfo.port }] })
-        for (const iterator of dictionary) {
-            console.log(iterator);
-        }
-        console.log("------------------------------")
+        const roomExists = dictionary.findIndex(elem => elem.roomId == msgObj.roomId);
+        if(roomExists == -1) { 
+            dictionary.push({ roomId: msgObj.roomId, sockets: [{ socket: msgObj.socket, IP: senderInfo.address, PORT: senderInfo.port }] })
+            for (const iterator of dictionary) {
+                console.log(iterator);
+            }
+            console.log("------------------------------")
+         }else{
+            server.send(msg + " roomId already exists", senderInfo.port, senderInfo.address)
+         }
     }
-
     if (msgObj.action == "delete") {
 
     }
