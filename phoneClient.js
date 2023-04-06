@@ -5,10 +5,10 @@ const client = dgram.createSocket('udp4')
 let PORT = 5500
 let SERVERIP = '127.0.0.1'
 const socketID = "socket3"
-const roomID = "aabb"
+const roomID = "123456"
 const message = "uupp"
     
-let action = { action: "delete", socket: socketID, roomId: roomID, message: message }
+let action = { action: "create", socket: socketID, roomId: roomID, message: message }
 let actionString = JSON.stringify(action)
 
 // let action2 = { action: "message", socket: socketID, roomId: roomID, message: message }
