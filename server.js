@@ -29,7 +29,17 @@ server.on('message', (msg, senderInfo) => {
         }
     }
     if (msgObj.action == "delete") {
-
+        if (roomExists != -1) {
+                roomIndex = dictionary.findIndex(elem => elem.roomId == msgObj.roomId)
+                socketIndex = dictionary[roomIndex].sockets.findIndex(elem => elem.socket == msgObj.socket)
+                dictionary.splice(roomIndex, 1);
+                for (const iterator of dictionary) {
+                    console.log(iterator);
+                }
+                console.log("------------------------------")
+        } else {
+            server.send(msg + " roomId does not exists", senderInfo.port, senderInfo.address)
+        }
     }
 
     if (msgObj.action == "join") {

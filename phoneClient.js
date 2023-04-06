@@ -8,11 +8,11 @@ const socketID = "socket3"
 const roomID = "aabb"
 const message = "uupp"
     
-let action = { action: "join", socket: socketID, roomId: roomID, message: message }
+let action = { action: "delete", socket: socketID, roomId: roomID, message: message }
 let actionString = JSON.stringify(action)
 
-let action2 = { action: "message", socket: socketID, roomId: roomID, message: message }
-let actionString2 = JSON.stringify(action2)
+// let action2 = { action: "message", socket: socketID, roomId: roomID, message: message }
+// let actionString2 = JSON.stringify(action2)
 
 // let action3 = { action: "leave", socket: socketID, roomId: roomID }
 // let actionString3 = JSON.stringify(action3)
@@ -21,10 +21,15 @@ client.send(actionString, PORT, SERVERIP, (err) => {
     if (err) throw err
 });
 
-client.send(actionString2, PORT, SERVERIP, (err) => {
-    if (err) throw err
+client.on('message', (msg, senderInfo) => {
+    console.log('Messages received from phone: ' + msg)
     client.close();
-});
+}
+);
+
+// client.send(actionString2, PORT, SERVERIP, (err) => {
+//     if (err) throw err
+// });
 
 // client.send(actionString3, PORT, SERVERIP, (err) => {
 //     if (err) throw err
