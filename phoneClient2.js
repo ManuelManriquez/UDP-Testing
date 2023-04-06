@@ -8,7 +8,7 @@ let serverBind = 5501;
 
 // let roomId = crypto.randomBytes(3).toString('hex');
 let roomId = "bbb";
-let msgCreateRoom = { action: "join", socket: "socket3", roomId: "bbcc" }
+let msgCreateRoom = { action: "join", socket: "socket3", roomId: roomId }
 let msgCreateRoomStr = JSON.stringify(msgCreateRoom);
 
 server.on('error', (err) => {
@@ -17,7 +17,7 @@ server.on('error', (err) => {
 });
 
 server.on('message', (msg, senderInfo) => {
-    console.log('Messages received from phone: ' + senderInfo.port)
+    console.log('Messages received from phone: ' + msg)
 }
 );
 

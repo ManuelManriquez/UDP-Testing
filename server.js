@@ -13,32 +13,42 @@ server.on('message', (msg, senderInfo) => {
     let msgObj = JSON.parse(msg);
     if (msgObj.action == "create") {
         const roomExists = dictionary.findIndex(elem => elem.roomId == msgObj.roomId);
-        if(roomExists == -1) { 
+        if (roomExists == -1) {
             dictionary.push({ roomId: msgObj.roomId, sockets: [{ socket: msgObj.socket, IP: senderInfo.address, PORT: senderInfo.port }] })
             for (const iterator of dictionary) {
                 console.log(iterator);
             }
             console.log("------------------------------")
-         }else{
+        } else {
             server.send(msg + " roomId already exists", senderInfo.port, senderInfo.address)
-         }
+        }
     }
     if (msgObj.action == "delete") {
 
     }
 
     if (msgObj.action == "join") {
-        dictionary = dictionary.map((elem) => {
-            if (elem.roomId === msgObj.roomId) {
-                return Object.assign({}, elem, { sockets: [...elem.sockets, { socket: msgObj.socket, IP: senderInfo.address, PORT: senderInfo.port }] })
+        const roomExists = dictionary.findIndex(elem => elem.roomId == msgObj.roomId);
+        if (roomExists != -1) {
+            const socketExists = dictionary[roomExists].sockets.findIndex(elem => elem.socket == msgObj.socket);
+            if (socketExists == -1) {
+                dictionary = dictionary.map((elem) => {
+                    if (elem.roomId === msgObj.roomId) {
+                        return Object.assign({}, elem, { sockets: [...elem.sockets, { socket: msgObj.socket, IP: senderInfo.address, PORT: senderInfo.port }] })
+                    } else {
+                        return elem;
+                    }
+                })
+                for (const iterator of dictionary) {
+                    console.log(iterator);
+                }
+                console.log("------------------------------")
             } else {
-                return elem;
+                server.send(msg + " socket already exists in the room", senderInfo.port, senderInfo.address)
             }
-        })
-        for (const iterator of dictionary) {
-            console.log(iterator);
+        } else {
+            server.send(msg + " roomId does not exists", senderInfo.port, senderInfo.address)
         }
-        console.log("------------------------------")
     }
 
     if (msgObj.action == "message") {
